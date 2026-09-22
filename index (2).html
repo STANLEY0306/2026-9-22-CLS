@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>我的興趣：變魔術</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --paper: #F6EDE0;
+    --paper-deep: #EFE1C7;
+    --ink: #2E1F17;
+    --ink-soft: #5B4636;
+    --velvet: #7E2B34;
+    --velvet-deep: #5E1F27;
+    --gold: #AD8433;
+    --gold-bright: #C79A3D;
+    --rule: rgba(46, 31, 23, 0.16);
+
+    /* Fixed "stage curtain" colors for the nav/footer chrome — stay constant
+       regardless of light/dark mode, same as the curtain illustration. */
+    --curtain: #5E1F27;
+    --curtain-deep: #4A151C;
+    --curtain-text: #F6EDE0;
+    --curtain-text-soft: rgba(246, 237, 224, 0.78);
+    --curtain-gold: #C79A3D;
+  }
+
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --paper: #221913;
+      --paper-deep: #2B1F17;
+      --ink: #F3E7D6;
+      --ink-soft: #D8C4AC;
+      --velvet: #B24552;
+      --velvet-deep: #8C2F39;
+      --gold: #D7AE55;
+      --gold-bright: #E6C374;
+      --rule: rgba(243, 231, 214, 0.18);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #221913;
+    --paper-deep: #2B1F17;
+    --ink: #F3E7D6;
+    --ink-soft: #D8C4AC;
+    --velvet: #B24552;
+    --velvet-deep: #8C2F39;
+    --gold: #D7AE55;
+    --gold-bright: #E6C374;
+    --rule: rgba(243, 231, 214, 0.18);
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+    scroll-behavior: smooth;
+  }
+
+  #about,
+  #contact {
+    scroll-margin-top: 1.5rem;
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', 'Segoe UI', sans-serif;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .stage {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3.5rem 1.75rem 5rem;
+  }
+
+  nav.sitenav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--curtain);
+    box-shadow: 0 1px 0 var(--curtain-deep);
+  }
+
+  .navbar-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0.9rem 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .navbar-inner .brand {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: var(--curtain-text);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
+  .navlinks {
+    display: flex;
+    gap: 1.6rem;
+  }
+
+  nav.sitenav a {
+    font-size: 0.92rem;
+    color: var(--curtain-text-soft);
+    text-decoration: none;
+    padding: 0.2rem 0.05rem;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  nav.sitenav a:hover,
+  nav.sitenav a:focus-visible {
+    color: var(--curtain-text);
+    border-bottom-color: var(--curtain-gold);
+  }
+
+  header.hero {
+    background: var(--paper-deep);
+    text-align: center;
+    padding: 4rem 1.75rem 3.5rem;
+  }
+
+  .hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .eyebrow-mark {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 1.4rem;
+    color: var(--gold);
+  }
+
+  .eyebrow-mark svg { width: 100%; height: 100%; }
+
+  h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 6vw, 3.1rem);
+    line-height: 1.35;
+    margin: 0 0 0.9rem;
+    color: var(--ink);
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.35rem;
+    color: var(--velvet);
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  :root[data-theme="dark"] .subtitle,
+  @media (prefers-color-scheme: dark) {
+    .subtitle { color: var(--gold-bright); }
+  }
+
+  .divider {
+    width: 64px;
+    height: 2px;
+    margin: 1.8rem auto 0;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .stagebox {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--velvet-deep);
+    margin: 0 0 3rem;
+    box-shadow: 0 18px 40px -20px rgba(46, 31, 23, 0.45);
+  }
+
+  .stagebox svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .caption {
+    text-align: center;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin-top: 0.9rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+  }
+
+  .acts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .act {
+    flex: 1 1 200px;
+    max-width: 260px;
+    padding: 1.7rem 1.4rem;
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+  }
+
+  .act h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 1.28rem;
+    margin: 0 0 0.7rem;
+    color: var(--velvet);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .act h2 { color: var(--gold-bright); }
+  }
+  :root[data-theme="dark"] .act h2 { color: var(--gold-bright); }
+
+  .act p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 1.04rem;
+  }
+
+  /* Media query: below 768px, stack the cards vertically instead of a row */
+  @media (max-width: 768px) {
+    .acts {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .act {
+      max-width: 100%;
+    }
+  }
+
+  footer.sitefooter {
+    background: var(--curtain);
+    margin-top: 4rem;
+    padding: 2.4rem 1.75rem;
+  }
+
+  .footer-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--curtain-text-soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  .contact {
+    margin-top: 3.5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .contact h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+    color: var(--velvet);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .contact h2 { color: var(--gold-bright); }
+  }
+  :root[data-theme="dark"] .contact h2 { color: var(--gold-bright); }
+
+  .contact .lead {
+    margin: 0 0 1.8rem;
+    color: var(--ink-soft);
+    font-size: 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.4rem;
+  }
+
+  .field label {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .field .req {
+    color: var(--velvet);
+    margin-left: 0.15rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .field .req { color: var(--gold-bright); }
+  }
+  :root[data-theme="dark"] .field .req { color: var(--gold-bright); }
+
+  .field input,
+  .field textarea {
+    font: inherit;
+    color: var(--ink);
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 0.7rem 0.85rem;
+    line-height: 1.5;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    outline: 2px solid var(--gold);
+    outline-offset: 1px;
+    border-color: var(--gold);
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 6rem;
+  }
+
+  .field .hint {
+    margin-top: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+
+  .submit-btn {
+    font: inherit;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--paper);
+    background: var(--velvet);
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.9rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .submit-btn:hover,
+  .submit-btn:focus-visible {
+    background: var(--velvet-deep);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .submit-btn { color: var(--paper-deep); background: var(--gold-bright); }
+    .submit-btn:hover, .submit-btn:focus-visible { background: var(--gold); }
+  }
+  :root[data-theme="dark"] .submit-btn { color: var(--paper-deep); background: var(--gold-bright); }
+  :root[data-theme="dark"] .submit-btn:hover,
+  :root[data-theme="dark"] .submit-btn:focus-visible { background: var(--gold); }
+
+  .form-status {
+    margin-top: 1.1rem;
+    font-size: 0.92rem;
+    color: var(--velvet);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .form-status { color: var(--gold-bright); }
+  }
+  :root[data-theme="dark"] .form-status { color: var(--gold-bright); }
+
+  @media (max-width: 480px) {
+    .stage { padding: 2.6rem 1.25rem 3.5rem; }
+    header.hero { padding: 3rem 1.25rem 2.8rem; }
+    .navbar-inner { padding: 0.85rem 1.25rem; }
+    .navlinks { gap: 1.1rem; }
+    h1 { font-size: 1.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sitenav" aria-label="頁內導覽">
+  <div class="navbar-inner">
+    <a class="brand" href="#top">變魔術日記</a>
+    <div class="navlinks">
+      <a href="#about">關於這項興趣</a>
+      <a href="#contact">聯絡我</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <span class="eyebrow-mark" aria-hidden="true">
+      <svg viewBox="0 0 34 34" fill="none">
+        <path d="M17 2 L20.5 13.5 L32 17 L20.5 20.5 L17 32 L13.5 20.5 L2 17 L13.5 13.5 Z"
+          fill="currentColor"/>
+      </svg>
+    </span>
+    <h1>我的興趣：變魔術</h1>
+    <p class="subtitle">一副撲克牌，就是一整個舞台</p>
+    <div class="divider"></div>
+  </div>
+</header>
+
+<main>
+  <div class="stage">
+  <figure class="stagebox">
+    <svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="spot" cx="50%" cy="30%" r="65%">
+          <stop offset="0%" stop-color="#3d1820" stop-opacity="0.0"/>
+          <stop offset="55%" stop-color="#3d1820" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#3d1820" stop-opacity="0.9"/>
+        </radialGradient>
+        <linearGradient id="curtainL" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stop-color="#4a151c"/>
+          <stop offset="100%" stop-color="#5e1f27"/>
+        </linearGradient>
+        <linearGradient id="curtainR" x1="1" x2="0" y1="0" y2="0">
+          <stop offset="0%" stop-color="#4a151c"/>
+          <stop offset="100%" stop-color="#5e1f27"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="640" height="360" fill="#5e1f27"/>
+      <rect width="640" height="360" fill="url(#spot)"/>
+
+      <!-- curtains -->
+      <g opacity="0.9">
+        <rect x="0" y="0" width="70" height="360" fill="url(#curtainL)"/>
+        <rect x="570" y="0" width="70" height="360" fill="url(#curtainR)"/>
+        <g stroke="#3d141a" stroke-width="4" opacity="0.55">
+          <path d="M12 0 Q30 180 12 360"/>
+          <path d="M32 0 Q50 180 32 360"/>
+          <path d="M52 0 Q70 180 52 360"/>
+          <path d="M588 0 Q606 180 588 360"/>
+          <path d="M608 0 Q626 180 608 360"/>
+          <path d="M628 0 Q640 180 628 360"/>
+        </g>
+      </g>
+
+      <!-- floor line -->
+      <line x1="70" y1="300" x2="570" y2="300" stroke="#C79A3D" stroke-width="1" opacity="0.35"/>
+
+      <!-- sparkles -->
+      <g fill="#E6C374">
+        <path d="M150 90 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z"/>
+        <path d="M470 70 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"/>
+        <path d="M500 150 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"/>
+        <path d="M120 180 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"/>
+      </g>
+
+      <!-- hand -->
+      <g transform="translate(240,190)">
+        <path d="M0 90 C -6 40 4 10 20 -4 C 26 -9 34 -8 34 0
+                 L34 40 C 60 30 66 24 78 6 C 84 -3 96 0 92 12
+                 C 84 34 60 58 34 66 L20 90 Z"
+          fill="#3a231a"/>
+      </g>
+
+      <!-- fanned cards -->
+      <g transform="translate(300,150)">
+        <g transform="rotate(-26)">
+          <rect x="0" y="0" width="80" height="112" rx="6" fill="#F6EDE0" stroke="#2E1F17" stroke-width="2"/>
+          <circle cx="40" cy="56" r="10" fill="#7E2B34"/>
+        </g>
+        <g transform="rotate(-9)">
+          <rect x="10" y="-6" width="80" height="112" rx="6" fill="#F6EDE0" stroke="#2E1F17" stroke-width="2"/>
+          <path d="M60 24 l-24 44 h48z" fill="#2E1F17"/>
+        </g>
+        <g transform="rotate(9)">
+          <rect x="20" y="-10" width="80" height="112" rx="6" fill="#F6EDE0" stroke="#2E1F17" stroke-width="2"/>
+          <path d="M60 20 L72 42 L60 64 L48 42 Z" fill="#7E2B34"/>
+        </g>
+        <g transform="rotate(26)">
+          <rect x="30" y="-14" width="80" height="112" rx="6" fill="#F6EDE0" stroke="#2E1F17" stroke-width="2"/>
+          <path d="M70 20 l6 12 13 2 -9 9 2 13 -12 -6 -12 6 2 -13 -9 -9 13 -2z" fill="#2E1F17"/>
+        </g>
+      </g>
+    </svg>
+    <figcaption class="caption">最喜歡的一刻：牌攤開的那零點五秒</figcaption>
+  </figure>
+
+  <section class="acts" id="about" aria-label="關於這項興趣">
+
+    <article class="act">
+      <h2>怎麼開始的</h2>
+      <p>
+        第一次認真迷上變魔術，是看到街頭藝人用一副再普通不過的撲克牌，
+        讓觀眾選的那張牌憑空消失又出現。當下完全想不通原理，
+        那種「明明看得清清楚楚，卻猜不到答案」的感覺讓我上癮，
+        回家後就開始上網找教學影片，一個人在房間裡練了整晚。
+      </p>
+    </article>
+
+    <article class="act">
+      <h2>練習的日常</h2>
+      <p>
+        變魔術最花時間的不是學新招式，而是把同一個手法練到自然。
+        光是一個換牌動作，我就對著鏡子練了快兩個星期，
+        從手指僵硬卡卡到能一邊聊天一邊自然完成。
+        現在包包裡固定放著一副牌，等公車、等朋友的空檔都能拿出來練。
+      </p>
+    </article>
+
+    <article class="act">
+      <h2>最喜歡的部分</h2>
+      <p>
+        比起魔術本身，我更喜歡表演當下觀眾臉上的表情——
+        從專注緊盯，到謎底揭曉那一瞬間的驚呼或大笑。
+        那種親手製造出的小小驚喜，是我一直想繼續學下去的原因，
+        也讓我開始研究撲克牌以外的硬幣魔術和心靈魔術。
+      </p>
+    </article>
+
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-heading">
+    <h2 id="contact-heading">聯絡我</h2>
+    <p class="lead">看完表演有問題，或想邀約演出？留言給我。</p>
+
+    <form id="contact-form" novalidate>
+      <div class="field">
+        <label for="name">姓名 <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="name" name="name" autocomplete="name" required aria-required="true">
+      </div>
+
+      <div class="field">
+        <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="email" name="email" autocomplete="email" required aria-required="true">
+      </div>
+
+      <div class="field">
+        <label for="message">留言</label>
+        <textarea id="message" name="message" rows="4"></textarea>
+        <span class="hint">選填，想跟我說什麼都可以。</span>
+      </div>
+
+      <button type="submit" class="submit-btn">送出</button>
+      <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
+    </form>
+  </section>
+
+  </div>
+</main>
+
+<footer class="sitefooter">
+  <div class="footer-inner">祝你，也遇見自己的第一個「怎麼可能」。</div>
+</footer>
+
+<script>
+  document.getElementById('contact-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var status = document.getElementById('form-status');
+    status.textContent = '謝謝留言，我會盡快回覆你！';
+    status.hidden = false;
+    this.reset();
+  });
+</script>
+</body>
+</html>
